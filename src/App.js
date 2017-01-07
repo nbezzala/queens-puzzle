@@ -2,26 +2,29 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
-class Square extends Component {
-
-    constructor() {
-        super();
-	    this.state = {
-	        value: null
-	    };
-    }
-	
-    render() {
-        return(
-            <button className="square" onClick={() => this.setState({value: 'X'}) }>{this.state.value}</button>
-        );
-    };
+function Square(props) {
+    return(
+        <button className="square" onClick={() => props.onClick()}>{props.value}</button>
+    );
 }
 
 class Board extends Component {
 
+    constructor() {
+        super();
+	    this.state = {
+	        squares: Array(9).fill(null)
+	    };
+    }
+
+    handleClick(i) {
+        let squares = this.state.squares.slice();
+        squares[i] = i;
+        this.setState({squares: squares});
+    }
+
     renderSquare(i) {
-        return(<Square value={i} />);
+        return(<Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />);
     }
     render() {
         return(
