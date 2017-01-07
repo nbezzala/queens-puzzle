@@ -16,19 +16,22 @@ class Board extends Component {
     constructor() {
         super();
 
-        let squares = Array(8).fill(null);
-        squares.map(function(s) {
-            s = Array(8).fill(null);
-        });
+        let squares = new Array(8);
+        for(var i = 0; i < 8; i++) {
+            squares[i] = new Array(8);
+            for(var j=0; j<8; j++) {
+                squares[i][j] = null;
+            }
+        }
 
 	    this.state = {
 	        squares: squares
 	    };
     }
 
-    handleClick(i) {
+    handleClick(i, j) {
         let squares = this.state.squares.slice();
-        squares[i] = i;
+        squares[i][j] = i + j;
         this.setState({squares: squares});
     }
 
@@ -41,9 +44,15 @@ class Board extends Component {
         return(
             <div className="Board">
                 {
-                    squares.map(function(s) {
+                    squares.map(function(nested, i) {
+                        
                          return(
-                             <div className="board-row">X</div>
+                             <div className="board-row" key={"row" + i}>{
+                                nested.map(function(element, j) {
+                                    return(<Square value={squares[i][j]} key={j} onClick={() => this.handleClick(i, j)} />);
+                                })
+                            } 
+                            </div>
                         );
                     })
                 }
