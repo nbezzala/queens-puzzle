@@ -8,12 +8,21 @@ function Square(props) {
     );
 }
 
+
+
 class Board extends Component {
+
 
     constructor() {
         super();
+
+        let squares = Array(8).fill(null);
+        squares.map(function(s) {
+            s = Array(8).fill(null);
+        });
+
 	    this.state = {
-	        squares: Array(9).fill(null)
+	        squares: squares
 	    };
     }
 
@@ -26,24 +35,18 @@ class Board extends Component {
     renderSquare(i) {
         return(<Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />);
     }
+
     render() {
+        let squares = this.state.squares.slice();
         return(
             <div className="Board">
-                <div className="board-row">
-                    {this.renderSquare(0)}
-                    {this.renderSquare(1)}
-                    {this.renderSquare(2)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(3)}
-                    {this.renderSquare(4)}
-                    {this.renderSquare(5)}
-                </div>
-                <div className="board-row">
-                    {this.renderSquare(6)}
-                    {this.renderSquare(7)}
-                    {this.renderSquare(8)}
-                </div>
+                {
+                    squares.map(function(s) {
+                         return(
+                             <div className="board-row">X</div>
+                        );
+                    })
+                }
             </div>
         );
     }
