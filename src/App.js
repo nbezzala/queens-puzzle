@@ -12,12 +12,11 @@ function Square(props) {
 
 class Board extends Component {
 
-
     constructor() {
         super();
 
         let squares = new Array(8);
-        for(var i = 0; i < 8; i++) {
+        for(var i=0; i<8; i++) {
             squares[i] = new Array(8);
             for(var j=0; j<8; j++) {
                 squares[i][j] = null;
@@ -31,7 +30,7 @@ class Board extends Component {
 
     handleClick(i, j) {
         let squares = this.state.squares.slice();
-        squares[i][j] = i + ', ' + j;
+        squares[i][j] = 'X';
         this.setState({squares: squares});
     }
 
@@ -72,7 +71,7 @@ class App extends Component {
           <h2>Welcome to React</h2>
         </div>
         <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
+          Click on any square to place a Queen there.
         </p>
         <Board />
       </div>
