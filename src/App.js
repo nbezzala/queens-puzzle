@@ -31,12 +31,12 @@ class Board extends Component {
 
     handleClick(i, j) {
         let squares = this.state.squares.slice();
-        squares[i][j] = i + j;
+        squares[i][j] = i + ', ' + j;
         this.setState({squares: squares});
     }
 
-    renderSquare(i) {
-        return(<Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />);
+    renderSquare(i, j) {
+        return(<Square value={this.state.squares[i][j]} key={j} onClick={() => this.handleClick(i, j)} />);
     }
 
     render() {
@@ -44,12 +44,12 @@ class Board extends Component {
         return(
             <div className="Board">
                 {
-                    squares.map(function(nested, i) {
+                    squares.map((nested, i) => {
                         
                          return(
                              <div className="board-row" key={"row" + i}>{
-                                nested.map(function(element, j) {
-                                    return(<Square value={squares[i][j]} key={j} onClick={() => this.handleClick(i, j)} />);
+                                nested.map((element, j) => {
+                                    return this.renderSquare(i, j);
                                 })
                             } 
                             </div>
