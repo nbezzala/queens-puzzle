@@ -19,7 +19,10 @@ class Board extends Component {
         for(var i=0; i<8; i++) {
             squares[i] = new Array(8);
             for(var j=0; j<8; j++) {
-                squares[i][j] = null;
+                squares[i][j] = {
+                            value: null, 
+                            covered: false
+                };
             }
         }
 
@@ -30,12 +33,23 @@ class Board extends Component {
 
     handleClick(i, j) {
         let squares = this.state.squares.slice();
-        squares[i][j] = 'X';
+        if (squares[i][j].value || squares[i][j].covered) {
+            return;
+        }
+        squares[i][j].value = 'X';
+        for(var n=0; n<8; n++) {
+            squares[i][n].covered = true;
+            squares[n][j].covered = true;
+            if (i+n>=0 && i+n<8 && j+n>=0 && j+n<8) { squares[i+n][j+n].covered = true; }
+            if (i+n>=0 && i+n<8 && j-n>=0 && j-n<8) { squares[i+n][j-n].covered = true; }
+            if (i-n>=0 && i-n<8 && j+n>=0 && j+n<8) { squares[i-n][j+n].covered = true; }
+            if (i-n>=0 && i-n<8 && j-n>=0 && j-n<8) { squares[i-n][j-n].covered = true; }
+        }
         this.setState({squares: squares});
     }
 
     renderSquare(i, j) {
-        return(<Square value={this.state.squares[i][j]} key={j} onClick={() => this.handleClick(i, j)} />);
+        return(<Square value={this.state.squares[i][j].value} key={j} onClick={() => this.handleClick(i, j)} />);
     }
 
     render() {
@@ -60,6 +74,13 @@ class Board extends Component {
     }
 }
 
+class Game extends Component {
+
+    render() {
+        return(<Board />);
+    }
+}
+
 class App extends Component {
 
 
@@ -73,7 +94,7 @@ class App extends Component {
         <p className="App-intro">
           Click on any square to place a Queen there.
         </p>
-        <Board />
+        <Game />
       </div>
     );
   }
